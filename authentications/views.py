@@ -1,32 +1,50 @@
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic.edit import CreateView
+
 from authentications.models import Users
-from authentications.forms import RegisterUser,LoginUSer
-from django.urls import reverse_lazy
-from django.contrib.auth import authenticate, login
+
+from authentications.forms import LoginForm, UserRegistrationForm
 # Create your views here.
-class UserRegistraion(CreateView):
-    template_name = 'authentications/register.html'
-    form_class = RegisterUser
-    success_url = reverse_lazy('student_course_list')
+def user_login(request):
+    """Creating the user login view"""
+    if request.method =="POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            clean_data = form.cleaned_data
+            print(clean_data)
+            user = authenticate(request,email_address = clean_data['email_address'],
+            password = clean_data["password"])
+            if user is not None:
+                if user.is_active:
+                    login(request,user)
+                    render(request,"authentications/login.html",{"form":form})
+                else:
+                    return HttpResponse("Disabled Account")
+            else:
+                return HttpResponse("Invalid Login")
+    else:
+        form = LoginForm()
+    return render(request,"authentications/login.html",{"form":form})
 
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        clean_data = form.cleaned_data
-        user = authenticate(username=clean_data['username'],
-                            password=clean_data['password1'])
-        login(self.request, user)
-        return result
+def register(request):
+    """User registers view"""
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            clean_data  =form.cleaned_data
+            print(clean_data)
+            new_user = Users.objects.create_user(
+                email_address = clean_data["email_address"],
+                password = clean_data["password2"],
+                first_name=clean_data["first_name"],
+                last_name=clean_data["last_name"])
+            new_user.save()
+            return HttpResponse("User Registered successfully")
+    else:
+        form = UserRegistrationForm()
+    return render(request, "authentications/register.html", {"form": form})
 
-class UserLogin(CreateView):
-    template_name = 'authentications/login.html'
-    form_class = LoginUSer
-    success_url = reverse_lazy('student_course_list')
-
-    def form_valid(self, form):
-        result = super().form_valid(form)
-        clean_data = form.cleaned_data
-        user = authenticate(username=clean_data['username'],
-                            password=clean_data['password1'])
-        login(self.request, user)
-        return result
+def user_logout(request):
+    logout(request)
+    return render(request, "authentications/login.html")

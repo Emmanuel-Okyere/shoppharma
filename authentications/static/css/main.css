@@ -25,6 +25,7 @@ p {
     padding: 0
 }
 
+
 .navbar-toggler:focus,
 a:focus,
 input:focus,
@@ -2417,8 +2418,10 @@ ol {
 .header .mega-category-menu .sub-category li a {
     color: #081828;
     text-transform: capitalize;
+    text-decoration: none;
     font-size: 14px;
     position: relative;
+    text-decoration: none;
     width: 100%;
     padding: 8px 30px
 }
@@ -3386,6 +3389,7 @@ ol {
 
 .single-product .product-info .title a {
     font-size: 16px;
+    text-decoration: none;
     font-weight: 700;
     color: #081828
 }
@@ -3393,11 +3397,13 @@ ol {
 @media only screen and (min-width:768px) and (max-width:991px),
 (max-width:767px) {
     .single-product .product-info .title a {
-        font-size: 15px
+        font-size: 15px;
+        text-decoration: none;
     }
 }
 
 .single-product .product-info .title a:hover {
+    text-decoration: none;
     color: #0167f3
 }
 
@@ -6183,7 +6189,8 @@ blockquote span {
     font-weight: 400;
     font-size: 14px;
     display: inline-block;
-    margin-right: 3px
+    margin-right: 3px;
+    text-decoration: none;
 }
 
 .product-sidebar .single-widget .list li a:hover {
@@ -7039,6 +7046,7 @@ blockquote span {
 
 .account-login .form-group .form-control {
     padding: 0 18px;
+    margin-right: 300px;
     -webkit-transition: color .25s, background-color .25s, border-color .25s;
     transition: color .25s, background-color .25s, border-color .25s;
     border: 1px solid #e0e0e0;

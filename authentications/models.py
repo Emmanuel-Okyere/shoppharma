@@ -8,13 +8,13 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 class Pharmacist(BaseUserManager):
     """Registration of the user using the BaseUserManager to create a superuser"""
 
-    def create_user(self, email_address, password=None):
+    def create_user(self,email_address, password=None, first_name=None,last_name=None):
         """Creation of user"""
         if not email_address:
             raise ValueError("user must have email address")
 
         user = self.model(
-            email_address=email_address,
+            email_address=email_address,first_name=first_name,last_name=last_name
         )
         user.set_password(password)
         user.save(using=self._db)
