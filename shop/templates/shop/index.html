@@ -105,13 +105,13 @@ GH₵1,000 - GH₵5,000 (213)
 <div class="product-image">
 <img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}"alt="#">
 <div class="button">
-<a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+<a href="#" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
 </div>
 </div>
 <div class="product-info">
 <span class="category">{{product.category}}</span>
 <h4 class="title">
-<a href="product-grids.html">{{product.name}}</a>
+<a href="{{ product.get_absolute_url }}">{{product.name}}</a>
 </h4>
 <ul class="review">
 <li><i class="lni lni-star-filled"></i></li>
@@ -159,7 +159,7 @@ GH₵1,000 - GH₵5,000 (213)
 <div class="product-image">
 <img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" alt="#">
 <div class="button">
-<a href="product-details.html" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+<a href="#" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
 </div>
 </div>
 </div>
@@ -167,7 +167,7 @@ GH₵1,000 - GH₵5,000 (213)
 <div class="product-info">
 <span class="category">{{product.category}}</span>
 <h4 class="title">
-<a href="product-grids.html">{{product.name}}</a>
+<a href="{{ product.get_absolute_url }}">{{product.name}}</a>
 </h4>
 <ul class="review">
 <li><i class="lni lni-star-filled"></i></li>

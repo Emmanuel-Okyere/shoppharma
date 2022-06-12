@@ -50,4 +50,4 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         """Getting absolute URL"""
-        return reverse("shop:product_detail", args=[self.id, self.slug])
+        return reverse_lazy("shop:product_detail", args=[self.id, self.slug])

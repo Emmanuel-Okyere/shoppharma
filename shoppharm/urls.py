@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("authentication/",include("authentications.urls"), name = "users_authenticate"),
     path("",include("shop.urls")),
+    path("",include("cart.urls")),
 
 ]
 
