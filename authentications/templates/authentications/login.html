@@ -6,7 +6,7 @@
 <div class="container">
 <div class="row">
 <div class="col-lg-6 offset-lg-3 col-md-10 offset-md-1 col-12">
-<form class="card login-form" method="post">
+<form class="card login-form" method="POST">
 <div class="card-body">
 <div class="title">
 <h3>Login Now</h3>
@@ -25,8 +25,17 @@ login</a></div>
 <div class="alt-option">
 <span>Or</span>
 </div>
+<div class="form-group input-group">
 {{form.as_p}}
 {% csrf_token %}
+</div>
+<div class="d-flex flex-wrap justify-content-between bottom-content">
+<div class="form-check">
+<input type="checkbox" class="form-check-input width-auto" id="exampleCheck1">
+<label class="form-check-label">Remember me</label>
+</div>
+<a class="lost-pass" href="#">Forgot password?</a>
+</div>
 <div class="button"> 
 <button class="btn" type="submit">Login</button>
 </div>
