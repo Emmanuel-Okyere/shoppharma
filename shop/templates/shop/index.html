@@ -105,7 +105,7 @@ GH₵1,000 - GH₵5,000 (213)
 <div class="product-image">
 <img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}"alt="#">
 <div class="button">
-<a href="#" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
+<a href="{% url 'cart:cart_add' product.id %}" class="btn"><i class="lni lni-cart"></i> Add to Cart</a>
 </div>
 </div>
 <div class="product-info">
