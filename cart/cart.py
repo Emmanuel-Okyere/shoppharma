@@ -12,7 +12,7 @@ class Cart(object):
         """Initialize thye cart"""
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
-        self.coupon_id = self.session.get("coupon_id")
+        # self.coupon_id = self.session.get("coupon_id")
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
         self.cart = cart
