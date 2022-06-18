@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'authentications.apps.AuthenticationsConfig',
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
+    "orders.apps.OrdersConfig",
 ]
 
 MIDDLEWARE = [
