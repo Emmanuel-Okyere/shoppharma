@@ -12,3 +12,4 @@ class OrderCreateForm(forms.Form):
     postal_code = forms.CharField(widget=forms.TextInput(attrs={"class":"form-input form"}))
     region = forms.ChoiceField(choices=sorted(choices),
     widget=forms.Select(attrs={"class":"form-control"}))
+
