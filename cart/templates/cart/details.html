@@ -8,14 +8,14 @@
 <div class="row align-items-center">
 <div class="col-lg-6 col-md-6 col-12">
 <div class="breadcrumbs-content">
-<h1 class="page-title">checkout</h1>
+<h1 class="page-title">Cart</h1>
 </div>
 </div>
 <div class="col-lg-6 col-md-6 col-12">
 <ul class="breadcrumb-nav">
 <li><a href="{% url 'shop:shop' %}"><i class="lni lni-home"></i> Home</a></li>
 <li><a href="{% url 'shop:shop' %}">Shop</a></li>
-<li>checkout</li>
+<li>Cart</li>
 </ul>
 </div>
 </div>
@@ -118,7 +118,7 @@
 <li class="last">You Pay<span>GH₵{{ cart.get_total|floatformat:2 }}</span></li>
 </ul>
 <div class="button">
-<a href="checkout.html" class="btn">Checkout</a>
+<a href="{% url 'orders:order_create' %}" class="btn">Checkout</a>
 <a href="{% url 'shop:shop' %}" class="btn btn-alt">Continue shopping</a>
 </div>
 </div>
