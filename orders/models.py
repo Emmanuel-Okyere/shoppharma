@@ -3,6 +3,7 @@ from decimal import Decimal
 from django.db import models
 from shop.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
+from coupons.models import Coupon
 # from coupons.models import Coupon
 # Create your models here.
 
@@ -19,8 +20,8 @@ class Order(models.Model):
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
     braintree_id = models.CharField(max_length=150, blank=True)
-    # coupon = models.ForeignKey(Coupon, related_name="orders", on_delete=models.SET_NULL,
-                            #    null=True, blank=True)
+    coupon = models.ForeignKey(Coupon, related_name="orders", on_delete=models.SET_NULL,
+                               null=True, blank=True)
     discount = models.IntegerField(default=0, validators=[MinValueValidator(0),
                                                           MaxValueValidator(100)])
 

@@ -101,7 +101,6 @@
 </div>
 </div>
 {% endif %}
-
 {% endwith %}
 </div>
 <div class="row">
@@ -112,12 +111,14 @@
 <div class="col-lg-8 col-md-6 col-12">
 <div class="left">
 <div class="coupon">
- <form action="#" target="_blank">
-<input name="Coupon" placeholder="Enter Your Coupon">
+<form action="{% url 'coupons:apply' %}" method="POST">
+{{ coupon_apply_form }}
 <div class="button">
-<button class="btn">Apply Coupon</button>
+<button type="submit" class="btn">Apply Coupon</button>
 </div>
+{% csrf_token %}
 </form>
+
 </div>
 </div>
 </div>
@@ -127,8 +128,14 @@
 <ul>
 <li>Cart Subtotal<span>GH₵{{ cart.get_total|floatformat:2 }}</span></li>
 <li>Shipping<span>Free</span></li>
-<li>You Save<span>$29.00</span></li>
+{% if cart.coupon %}
+<li class="last">Coupon<span>{{ cart.coupon.code }}</span></li>
+<li class="last">Coupon Discount<span style ="color:red">{{ cart.coupon.discount }}%</span></li>
+<li class="last">Amount off<span style ="color:red">-GH₵{{ cart.get_discount|floatformat:2 }}</span></li>
+<li class="last">You Pay<span>GH₵{{ cart.get_total_price_after_discount|floatformat:2 }}</span></li>
+{% else %}
 <li class="last">You Pay<span>GH₵{{ cart.get_total|floatformat:2 }}</span></li>
+{% endif %}
 </ul>
 <div class="button">
 <a href="{% url 'orders:order_create' %}" class="btn">Checkout</a>
