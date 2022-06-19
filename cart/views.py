@@ -9,7 +9,7 @@ from .forms import CartAddProductForm
 # Create your views here.
 
 
-# @require_POST
+@require_POST
 def cart_add(request, product_id):
     """Adding cart item"""
     cart = Cart(request)
@@ -22,7 +22,6 @@ def cart_add(request, product_id):
     return redirect("cart:cart_detail")
 
 
-# @require_POST
 def cart_remove(request, product_id):
     """Removing item from cart"""
     cart = Cart(request)

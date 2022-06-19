@@ -3,10 +3,31 @@
 {% block title %} Cart{% endblock %}
 {% block content %}
 
+<div class="breadcrumbs">
+<div class="container">
+<div class="row align-items-center">
+<div class="col-lg-6 col-md-6 col-12">
+<div class="breadcrumbs-content">
+<h1 class="page-title">Cart</h1>
+</div>
+</div>
+<div class="col-lg-6 col-md-6 col-12">
+<ul class="breadcrumb-nav">
+<li><a href="{% url 'shop:shop' %}"><i class="lni lni-home"></i> Home</a></li>
+<li><a href="{% url 'shop:shop' %}">Shop</a></li>
+<li>Cart</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
 <div class="shopping-cart section">
 <div class="container">
 <div class="cart-list-head">
+{% with total_items=cart|length %}
 
+{% if total_items > 0 %}
 <div class="cart-list-title">
 <div class="row">
 <div class="col-lg-1 col-md-1 col-12">
@@ -31,6 +52,7 @@
 
 {% for item in cart %}
 {% with product=item.product %}
+
 <div class="cart-single-list">
 <div class="row align-items-center">
 <div class="col-lg-1 col-md-1 col-12">
@@ -46,7 +68,7 @@
 </div>
 <div class="col-lg-2 col-md-2 col-12">
 <div class="count-input">
-<form action="{% url 'cart:cart_add' product.id %}" method="post">
+<form action="{% url 'cart:cart_add' product.id %}" method="POST">
 {{ item.update_quantity_form.quantity }}
 {{ item.update_quantity_form.override }}
 <div class="button">
@@ -70,7 +92,17 @@
 
 {% endwith %}
 {% endfor %}
+{% else %}
+<div class="cart-list-title">
+<div class="row">
+<div class="col-lg-4 col-md-3 col-12">
+<p>Your cart is empty</p>
+</div>
+</div>
+</div>
+{% endif %}
 
+{% endwith %}
 </div>
 <div class="row">
 <div class="col-12">
@@ -99,7 +131,7 @@
 <li class="last">You Pay<span>GH₵{{ cart.get_total|floatformat:2 }}</span></li>
 </ul>
 <div class="button">
-<a href="checkout.html" class="btn">Checkout</a>
+<a href="{% url 'orders:order_create' %}" class="btn">Checkout</a>
 <a href="{% url 'shop:shop' %}" class="btn btn-alt">Continue shopping</a>
 </div>
 </div>

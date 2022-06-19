@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import braintree
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
@@ -28,6 +29,16 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 CART_SESSION_ID = 'cart'
+# Braintree Configuration
+# SECURITY WARNING: keep the secret key used in production secret!
+BRAINTREE_PUBLIC_KEY = os.getenv("BRAINTREE_PUBLIC_KEY")
+BRAINTREE_PRIVATE_KEY = os.getenv("BRAINTREE_PRIVATE_KEY")
+BRAINTREE_MERCHANT_ID = os.getenv("BRAINTREE_MERCHANT_ID")
+
+BRAINTREE_CONF = braintree.Configuration(
+    braintree.Environment.Sandbox, BRAINTREE_MERCHANT_ID,
+    BRAINTREE_PUBLIC_KEY, BRAINTREE_PRIVATE_KEY
+)
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +51,7 @@ INSTALLED_APPS = [
     'authentications.apps.AuthenticationsConfig',
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
+    "orders.apps.OrdersConfig",
 ]
 
 MIDDLEWARE = [
