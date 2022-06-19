@@ -127,7 +127,7 @@
 
 <div class="shopping-item">
 <div class="dropdown-cart-header">
-<span>{% if total_items > 0 %} {{total_items}} item{{ total_items|pluralize }} {% else %} 0 Items{% endif %} </span>
+<span>{% if total_items > 0 %} {{total_items}} item{{ total_items|pluralize }} {% else %} Empty{% endif %} </span>
 {% endwith %}
 <a href="{% url 'cart:cart_detail' %}">View Cart</a>
 </div>
@@ -143,7 +143,7 @@
 <div class="content">
 <h4><a href="{{ product.get_absolute_url }}">
 {{product.name}}</a></h4>
-<p class="quantity">1x - <span class="amount">GH₵{{ item.total_price }}</span></p>
+<p class="quantity"> {{ item.quantity }} =<span class="amount">GH₵{{ item.total_price }}</span></p>
 </div>
 </li>
 </ul>
@@ -156,7 +156,7 @@
 </div>
 
 <div class="button">
-<a href="checkout.html" class="btn animate">Checkout</a>
+<a href="{% url 'orders:order_create' %}" class="btn animate">Checkout</a>
 </div>
 </div>
 </div>

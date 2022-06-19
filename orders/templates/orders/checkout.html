@@ -28,7 +28,7 @@ Option</h6>
 <label for="shipping-1">
 <img src="{%static 'images/shipping/shipping-1.png'%}" alt="Sipping">
 <p>Standerd Shipping</p>
-<span class="price">$10.50</span>
+<span class="price">GH₵0</span>
 </label>
 </div>
 <div class="single-payment-option">
@@ -36,7 +36,7 @@ Option</h6>
 <label for="shipping-2">
 <img src="{%static 'images/shipping/shipping-2.png'%}" alt="Sipping">
 <p>Standerd Shipping</p>
-<span class="price">$0</span>
+<span class="price">GH₵0</span>
 </label>
 </div>
 <div class="single-payment-option">
@@ -44,7 +44,7 @@ Option</h6>
 <label for="shipping-3">
 <img src="{%static 'images/shipping/shipping-3.png'%}" alt="Sipping">
 <p>Standerd Shipping</p>
-<span class="price">$0</span>
+<span class="price">GH₵0</span>
 </label>
 </div>
 <div class="single-payment-option">
@@ -52,7 +52,7 @@ Option</h6>
 <label for="shipping-4">
 <img src="{%static 'images/shipping/shipping-4.png'%}" alt="Sipping">
 <p>Standerd Shipping</p>
-<span class="price">$0</span>
+<span class="price">GH₵0</span>
 </label>
 </div>
 </div>
@@ -87,30 +87,26 @@ step</button>
 </div>
 </form>
 </div>
+{% for item in cart %}
+{% with product=item.product %}
 <div class="checkout-sidebar-price-table mt-30">
 <h5 class="title">Pricing Table</h5>
 <div class="sub-total-price">
 <div class="total-price">
-<p class="value">Subotal Price:</p>
-<p class="price">$144.00</p>
-</div>
-<div class="total-price shipping">
-<p class="value">Subotal Price:</p>
-<p class="price">$10.50</p>
-</div>
-<div class="total-price discount">
-<p class="value">Subotal Price:</p>
-<p class="price">$10.00</p>
+<p class="value">{{product.name}} Total</p>
+<p class="price">GH₵{{item.total_price}}</p>
 </div>
 </div>
+{% endwith %}
+{% endfor %}
 <div class="total-payable">
 <div class="payable-price">
 <p class="value">Subotal Price:</p>
-<p class="price">$164.50</p>
+<p class="price">GH₵{{ cart.get_total|floatformat:2 }}</p>
 </div>
 </div>
 <div class="price-table-btn button">
-<a href="javascript:void(0)" class="btn btn-alt">Checkout</a>
+<a href="{% url 'orders:order_create' %}" class="btn btn-alt">Checkout</a>
 </div>
 </div>
 <div class="checkout-sidebar-banner mt-30">

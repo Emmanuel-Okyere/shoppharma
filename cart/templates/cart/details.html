@@ -25,7 +25,9 @@
 <div class="shopping-cart section">
 <div class="container">
 <div class="cart-list-head">
+{% with total_items=cart|length %}
 
+{% if total_items > 0 %}
 <div class="cart-list-title">
 <div class="row">
 <div class="col-lg-1 col-md-1 col-12">
@@ -50,6 +52,7 @@
 
 {% for item in cart %}
 {% with product=item.product %}
+
 <div class="cart-single-list">
 <div class="row align-items-center">
 <div class="col-lg-1 col-md-1 col-12">
@@ -65,7 +68,7 @@
 </div>
 <div class="col-lg-2 col-md-2 col-12">
 <div class="count-input">
-<form action="{% url 'cart:cart_add' product.id %}" method="post">
+<form action="{% url 'cart:cart_add' product.id %}" method="POST">
 {{ item.update_quantity_form.quantity }}
 {{ item.update_quantity_form.override }}
 <div class="button">
@@ -89,7 +92,17 @@
 
 {% endwith %}
 {% endfor %}
+{% else %}
+<div class="cart-list-title">
+<div class="row">
+<div class="col-lg-4 col-md-3 col-12">
+<p>Your cart is empty</p>
+</div>
+</div>
+</div>
+{% endif %}
 
+{% endwith %}
 </div>
 <div class="row">
 <div class="col-12">

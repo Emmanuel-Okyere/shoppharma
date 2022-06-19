@@ -23,10 +23,12 @@ gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 def order_create(request):
     cart = Cart(request)
+    if len(cart) == 0:
+        return redirect(reverse('cart:cart_detail'))
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save(commit=False)
+            order = form.save()
             # if cart.coupon:
             #     order.coupon = cart.coupon
             #     order.discount = cart.coupon.discount
@@ -81,10 +83,18 @@ def payment_process(request):
             order.save()
             # launch asynchronous task
             # payment_completed.delay(order.id)
-            return redirect("payment:done")
+            return redirect("orders:done")
         else:
-            return redirect("payment:canceled")
+            return redirect("orders:canceled")
     else:
         client_token = gateway.client_token.generate()
         return render(request,"orders/payment.html", {"client_token":client_token,
         "order":order})
+
+def payment_done(request):
+    """When payment goes through"""
+    return render(request, "orders/done.html")
+
+def payment_canceled(request):
+    """Canceled payments"""
+    return render(request, "orders/canceled.html")

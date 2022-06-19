@@ -8,7 +8,7 @@
 <div class="col-lg-8">
 <div class="checkout-steps-form-style-1">
 <ul id="accordionExample">
-<h6 class="title collapsed" data-bs-toggle="collapse" data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">Payment Info</h6>
+<h6 class="title collapsed" data-bs-toggle="collapse" data-bs-target="#collapsefive" aria-expanded="false" aria-controls="collapsefive">Payment</h6>
 <section class="checkout-steps-form-content show" id="collapsefive" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
 <div class="row">
 <div class="col-12">
@@ -40,8 +40,7 @@
     -webkit-transition: all .3s linear;
     transition: all .3s linear;
     border: 1px solid #e6e6e6;background: #efefef;"></div>
-<input type="hidden" id="nonce" name="payment_method_nonce"
-value="">
+<input type="hidden" id="nonce" name="payment_method_nonce" value="">
 {% csrf_token %}
 <div class="single-form form-default button">
 <button class="btn" type="submit">pay now</button>
@@ -61,7 +60,7 @@ value="">
 <script src="https://js.braintreegateway.com/web/3.85.3/js/hosted-fields.min.js"></script>
 <script>
 var form = document.querySelector('#payment');
-var submit = document.querySelector('input[type="submit"]');
+var submit = document.querySelector('button[type="submit"]');
 braintree.client.create({
 authorization: '{{ client_token }}'
 }, function (clientErr, clientInstance) {

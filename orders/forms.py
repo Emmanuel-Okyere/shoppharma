@@ -1,5 +1,7 @@
 from django import forms
-class OrderCreateForm(forms.Form):
+
+from orders.models import Order
+class OrderCreateForm(forms.ModelForm):
     regions = ["Greater Accra", "Central","Ahafo","Upper West",
     "Northern","Savannah","North-East","Upper East","Bono East","Brong Ahafo",
     "Oti","Volta","Eastern","Western","Western North","Ashanti"]
@@ -13,3 +15,6 @@ class OrderCreateForm(forms.Form):
     region = forms.ChoiceField(choices=sorted(choices),
     widget=forms.Select(attrs={"class":"form-control"}))
 
+    class Meta:
+        model = Order
+        fields = ["first_name","last_name","telephone","email_address","address","postal_code","region"]
