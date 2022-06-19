@@ -98,7 +98,7 @@ GH₵1,000 - GH₵5,000 (213)
 <option>A - Z Order</option>
 <option>Z - A Order</option>
 </select>
-<h3 class="total-show-product">Showing: <span>1 - 12 items</span></h3>
+<h3 class="total-show-product">Showing: <span>{{post.paginator.count}} items</span></h3>
 </div>
 </div>
 <div class="col-lg-5 col-md-4 col-12">
@@ -115,7 +115,7 @@ GH₵1,000 - GH₵5,000 (213)
 <div class="tab-pane fade show active" id="nav-grid" role="tabpanel" aria-labelledby="nav-grid-tab">
 <div class="row">
 
-{% for product in products %}
+{% for product in post %}
 
 <div class="col-lg-4 col-md-6 col-12">
 <div class="single-product">
@@ -153,11 +153,23 @@ GH₵1,000 - GH₵5,000 (213)
  
 <div class="pagination left">
 <ul class="pagination-list">
-<li><a href="javascript:void(0)">1</a></li>
-<li class="active"><a href="javascript:void(0)">2</a></li>
-<li><a href="javascript:void(0)">3</a></li>
-<li><a href="javascript:void(0)">4</a></li>
-<li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
+{% if post.has_previous %}
+
+<li>
+<a href="?page={{ post.previous_page_number }}"><i class="lni lni-chevron-left"></i></a>
+</li>
+{% endif %}
+{% for i in post.paginator.get_elided_page_range %}
+<li {% if post.number == i %}class = "active" {% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
+{% endfor %}
+{% if post.has_next %}
+
+<li><a href="?page={{ post.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
+{% endif %}
+<span class="current">
+Page {{ post.number }} of {{ post.paginator.num_pages }}.
+</span>
+
 </ul>
 </div>
 
@@ -170,7 +182,7 @@ GH₵1,000 - GH₵5,000 (213)
 
 
 <div class="col-lg-12 col-md-12 col-12">
-{% for product in products %}
+{% for product in post %}
 <div class="single-product">
 <div class="row align-items-center">
 <div class="col-lg-4 col-md-4 col-12">
@@ -210,11 +222,23 @@ GH₵1,000 - GH₵5,000 (213)
 
 <div class="pagination left">
 <ul class="pagination-list">
-<li><a href="javascript:void(0)">1</a></li>
-<li class="active"><a href="javascript:void(0)">2</a></li>
-<li><a href="javascript:void(0)">3</a></li>
-<li><a href="javascript:void(0)">4</a></li>
-<li><a href="javascript:void(0)"><i class="lni lni-chevron-right"></i></a></li>
+{% if post.has_previous %}
+
+<li>
+<a href="?page={{ post.previous_page_number }}"><i class="lni lni-chevron-left"></i></a>
+</li>
+{% endif %}
+{% for i in post.paginator.get_elided_page_range %}
+<li {% if post.number == i %}class = "active" {% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
+{% endfor %}
+{% if post.has_next %}
+
+<li><a href="?page={{ post.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
+{% endif %}
+<span class="current">
+Page {{ post.number }} of {{ post.paginator.num_pages }}.
+</span>
+
 </ul>
 </div>
 
