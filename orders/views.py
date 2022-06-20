@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 # import weasyprint
 from .models import Order
 from .models import OrderItem
@@ -20,7 +21,7 @@ gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 # Create your views here.
 
-
+@login_required
 def order_create(request):
     cart = Cart(request)
     if len(cart) == 0:
@@ -62,7 +63,7 @@ def admin_order_pdf(request, order_id):
     # weasyprint.HTML(string=html).write_pdf(response, stylesheets=[weasyprint.CSS(
     #     settings.STATIC_ROOT + "css/pdf.css")])
     return response
-
+@login_required
 def payment_process(request):
     """Payment view"""
     order_id = request.session.get('order_id')
@@ -90,11 +91,11 @@ def payment_process(request):
         client_token = gateway.client_token.generate()
         return render(request,"orders/payment.html", {"client_token":client_token,
         "order":order})
-
+@login_required
 def payment_done(request):
     """When payment goes through"""
     return render(request, "orders/done.html")
-
+@login_required
 def payment_canceled(request):
     """Canceled payments"""
     return render(request, "orders/canceled.html")

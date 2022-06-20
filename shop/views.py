@@ -1,8 +1,8 @@
-from django.shortcuts import redirect, render,get_object_or_404
-from django.core.paginator import Paginator, EmptyPage,PageNotAnInteger,InvalidPage
-from django.urls import reverse
-from .models import Product, Category
 from cart.forms import CartAddProductForm
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.shortcuts import get_object_or_404, redirect, render
+
+from .models import Category, Product
 
 # Create your views here.
 
@@ -21,12 +21,17 @@ def product_list(request, category_slug=None):
         posts = paginator.page(paginator.num_pages)
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
+        products = Product.objects.filter(category=category)
+        paginator = Paginator(products, 9)
+        try:
+            posts = paginator.page(1)
+        except PageNotAnInteger:
+            return paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
     return render(request, "shop/index.html", {"category": category,
                                                       "categories": categories,
-                                                      "products": products,
                                                       "post":posts,"page":page})
-
 
 def product_detail(request, id, slug):
     """Product detial"""
@@ -35,8 +40,3 @@ def product_detail(request, id, slug):
     cart_product_form = CartAddProductForm()
     return render(request, "shop/details.html", {"product": product,"categories":categories,
     "cart_product_form":cart_product_form})
-
-
-def page_not_found(request):
-    """When payment goes through"""
-    return render(request, "shop/404.html")

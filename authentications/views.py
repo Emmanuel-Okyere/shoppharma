@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import redirect, render
 from authentications.models import Users
 
 from authentications.forms import LoginForm, UserRegistrationForm
@@ -16,11 +15,8 @@ def user_login(request):
             user = authenticate(request,email_address = clean_data['email_address'],
             password = clean_data["password"])
             if user is not None:
-                if user.is_active:
-                    login(request,user)
-                    render(request,"authentications/login.html",{"form":form})
-                else:
-                    return HttpResponse("Disabled Account")
+                login(request,user)
+                return redirect("shop:shop")
             else:
                 return HttpResponse("Invalid Login")
     else:
@@ -47,4 +43,4 @@ def register(request):
 
 def user_logout(request):
     logout(request)
-    return render(request, "authentications/login.html")
+    return redirect("shop:shop")
