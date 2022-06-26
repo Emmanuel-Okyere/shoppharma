@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 CART_SESSION_ID = 'cart'
 # Braintree Configuration
@@ -34,7 +34,7 @@ CART_SESSION_ID = 'cart'
 BRAINTREE_PUBLIC_KEY = os.getenv("BRAINTREE_PUBLIC_KEY")
 BRAINTREE_PRIVATE_KEY = os.getenv("BRAINTREE_PRIVATE_KEY")
 BRAINTREE_MERCHANT_ID = os.getenv("BRAINTREE_MERCHANT_ID")
-
+LOGIN_URL = "/authentication/login/"
 BRAINTREE_CONF = braintree.Configuration(
     braintree.Environment.Sandbox, BRAINTREE_MERCHANT_ID,
     BRAINTREE_PUBLIC_KEY, BRAINTREE_PRIVATE_KEY
@@ -52,7 +52,8 @@ INSTALLED_APPS = [
     "shop.apps.ShopConfig",
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
-    "coupons.apps.CouponsConfig"
+    "coupons.apps.CouponsConfig",
+    "rest_framework"
 ]
 
 MIDDLEWARE = [

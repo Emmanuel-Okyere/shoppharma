@@ -116,7 +116,13 @@
 </h3>
 </div>
 <div class="navbar-cart">
-
+{% if request.user.is_superuser %}
+<div class="wishlist">
+<a href="javascript:void(0)">
+<i class="lni lni-upload"></i>
+</a>
+</div>
+{% endif %}
 <div class="cart-items">
 <a href="{% url 'cart:cart_detail' %}" class="main-btn">
 {% with total_items=cart|length %}
@@ -150,6 +156,7 @@
 </ul>
 {% endwith %}
 {% endfor %}
+
 <div class="bottom">
 <div class="total">
 <span>Total</span>
