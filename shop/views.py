@@ -102,7 +102,7 @@ class CategoryAddSerializer(generics.ListAPIView):
 
 def add_product(request):
     if request.method == "POST":
-        form =ProductCreateForm(request.POST)
+        form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
             return redirect(reverse('shop:shop'))

@@ -1,12 +1,12 @@
 from django import forms
 
-from shop.models import Product
+from shop.models import Product, Category
 class ProductCreateForm(forms.ModelForm):
-
-    category = forms.IntegerField(widget=forms.NumberInput(attrs={"class":"form-input input"}))
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+    widget=forms.Select(attrs={"class":"form-control"}))
     name = forms.CharField(widget=forms.TextInput(attrs={"class":"form-input form"}))
     description = forms.CharField(widget=forms.TextInput(attrs={"class":"form-input form"}))
-    price = forms.DecimalField(widget=forms.TextInput(attrs={"class":"form-input form"}))
+    price = forms.DecimalField(widget=forms.NumberInput(attrs={"class":"form-input form"}))
 
     class Meta:
         model = Product

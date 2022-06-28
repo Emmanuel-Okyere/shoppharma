@@ -118,7 +118,7 @@
 <div class="navbar-cart">
 {% if request.user.is_superuser %}
 <div class="wishlist">
-<a href="javascript:void(0)">
+<a href="{% url 'shop:addproduct' %}">
 <i class="lni lni-upload"></i>
 </a>
 </div>
