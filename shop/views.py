@@ -102,6 +102,7 @@ class CategoryAddSerializer(generics.ListAPIView):
 
 def add_product(request):
     if request.method == "POST":
+        print(request.FILES.get("image"))
         form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()

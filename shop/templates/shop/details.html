@@ -30,14 +30,14 @@
 <div class="product-images">
 <main id="gallery">
 <div class="main-img">
-<img src="{{product.image.url}}" id="current" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" id="current" alt="#">
 </div>
 <div class="images">
-<img src="{{product.image.url}}" class="img" alt="#">
-<img src="{{product.image.url}}" class="img" alt="#">
-<img src="{{product.image.url}}" class="img" alt="#">
-<img src="{{product.image.url}}" class="img" alt="#">
-<img src="{{product.image.url}}" class="img" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" class="img" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" class="img" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}"class="img" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" class="img" alt="#">
+<img src="{% if product.image %}{{ product.image.url }} {% else %}{% static 'images/no_image.png' %}{% endif %}" class="img" alt="#">
 </div>
 </main>
 </div>

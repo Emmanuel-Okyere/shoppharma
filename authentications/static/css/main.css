@@ -1250,11 +1250,23 @@ ol {
     border: 1px solid #eee
 }
 
-.pagination .pagination-list li.active a,
+.pagination .pagination-list li a.active {
+    background: #696666bb;
+    color: #fff;
+    border-color: transparent;
+}
+
 .pagination .pagination-list li:hover a {
     background: #0167f3;
     color: #fff;
     border-color: transparent
+}
+
+.pagination .pagination-list li a.notactive {
+    background: #f1f1f1;
+    color: rgb(0, 0, 0);
+    border-color: transparent;
+    cursor: not-allowed;
 }
 
 .pagination .pagination-list li a i {

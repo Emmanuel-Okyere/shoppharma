@@ -147,29 +147,20 @@ GH₵1,000 - GH₵5,000 (213)
 </div>
 {% endfor %}
 </div>
-
 <div class="row">
 <div class="col-12">
- 
 <div class="pagination left">
 <ul class="pagination-list">
-{% if post.has_previous %}
-
 <li>
-<a href="?page={{ post.previous_page_number }}"><i class="lni lni-chevron-left"></i></a>
-</li>
-{% endif %}
+<a {% if post.has_previous %}  href="?page={{ post.previous_page_number }}" {% else %} class = "notactive" {% endif %}><i class="lni lni-chevron-left"></i>Prev</a>
+<!-- </li>
 {% for i in post.paginator.get_elided_page_range %}
 <li {% if post.number == i %}class = "active" {% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
-{% endfor %}
-{% if post.has_next %}
-
-<li><a href="?page={{ post.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
-{% endif %}
+{% endfor %} -->
+<li><a {% if post.has_next %} href="?page={{ post.next_page_number }}" {% else %} class = "notactive" {% endif %}>Next<i class="lni lni-chevron-right"></i></a></li>
 <span class="current">
 Page {{ post.number }} of {{ post.paginator.num_pages }}
 </span>
-
 </ul>
 </div>
 
@@ -222,19 +213,16 @@ Page {{ post.number }} of {{ post.paginator.num_pages }}
 
 <div class="pagination left">
 <ul class="pagination-list">
-{% if post.has_previous %}
 
 <li>
-<a href="?page={{ post.previous_page_number }}"><i class="lni lni-chevron-left"></i></a>
+<a {% if post.has_previous %}  href="?page={{ post.previous_page_number }}" {% else %} class = "notactive" {% endif %}><i class="lni lni-chevron-left"> Prev</i></a>
 </li>
-{% endif %}
-{% for i in post.paginator.get_elided_page_range %}
-<li {% if post.number == i %}class = "active" {% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
-{% endfor %}
-{% if post.has_next %}
 
-<li><a href="?page={{ post.next_page_number }}"><i class="lni lni-chevron-right"></i></a></li>
-{% endif %}
+<!-- {% for i in post.paginator.get_elided_page_range %}
+<li {% if post.number == i %}class = "active" {% endif %}><a href="?page={{ i }}">{{ i }}</a></li>
+{% endfor %} -->
+
+<li><a {% if post.has_next %} href="?page={{ post.next_page_number }}" {% else %} class = "notactive" {% endif %}>Next <i class="lni lni-chevron-right"></i></a></li>
 <span class="current">
 Page {{ post.number }} of {{ post.paginator.num_pages }}
 </span>
