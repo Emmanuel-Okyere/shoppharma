@@ -2,7 +2,7 @@ from django import forms
 
 from shop.models import Product, Category
 class ProductCreateForm(forms.ModelForm):
-    category = forms.ModelChoiceField(queryset=Category.objects.all(),
+    category = forms.ModelChoiceField(queryset=Category.objects.all(),empty_label ="Select",
     widget=forms.Select(attrs={"class":"form-control"}))
     name = forms.CharField(widget=forms.TextInput(attrs={"class":"form-input form"}))
     description = forms.CharField(widget=forms.TextInput(attrs={"class":"form-input form"}))
