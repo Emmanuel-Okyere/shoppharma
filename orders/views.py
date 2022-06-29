@@ -23,8 +23,9 @@ gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 @login_required
 def order_create(request):
+    """Creating the order"""
     cart = Cart(request)
-    if len(cart) == 0:
+    if not request.session["cart"]:
         return redirect(reverse('cart:cart_detail'))
     if request.method == "POST":
         form = OrderCreateForm(request.POST)
@@ -33,6 +34,8 @@ def order_create(request):
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
+            
+            order.user = request.user
             order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,

@@ -12,6 +12,7 @@ class UserRegistrationForm(forms.ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
     last_name = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
     email_address = forms.CharField(widget=forms.EmailInput(attrs={"class":"form-control"}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={"class":"form-control"}))
     password = forms.CharField(widget= forms.PasswordInput(attrs={"class":"form-control"}),
     label="Password")
     password2 = forms.CharField(label="Confirm Password",
@@ -20,7 +21,7 @@ class UserRegistrationForm(forms.ModelForm):
     class Meta:
         """Already contained in form"""
         model = Users
-        fields = ["first_name", "last_name","email_address"]
+        fields = ["first_name", "last_name","email_address","phone_number"]
 
     def clean_password2(self):
         """Checking if passwords matches"""

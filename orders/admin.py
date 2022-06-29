@@ -10,8 +10,8 @@ class OrderItemInline(admin.TabularInline):
     
 @admin.register(Order)
 class OrderAdminClass(admin.ModelAdmin):
-    list_display = ["first_name","email_address","created"]
-    list_filter = ("region", "email_address", "created")
+    list_display = ["user","created"]
+    list_filter = ("region", "created")
     inlines = [OrderItemInline]
 
 

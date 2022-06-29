@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from authentications.models import Users
-
+from django.contrib import messages
 from authentications.forms import LoginForm, UserRegistrationForm
 # Create your views here.
 def user_login(request):
@@ -16,9 +17,12 @@ def user_login(request):
             password = clean_data["password"])
             if user is not None:
                 login(request,user)
+                messages.success(request, "Login Success")
                 return redirect("shop:shop")
             else:
-                return HttpResponse("Invalid Login")
+                messages.error(request, "Invalid Credentials")
+                print("***********************",messages.get_level(request))
+                return render(request,"authentications/login.html",{"form":form})
     else:
         form = LoginForm()
     return render(request,"authentications/login.html",{"form":form})
@@ -34,9 +38,12 @@ def register(request):
                 email_address = clean_data["email_address"],
                 password = clean_data["password2"],
                 first_name=clean_data["first_name"],
-                last_name=clean_data["last_name"])
+                last_name=clean_data["last_name"],
+                phone_number = clean_data["phone_number"])
             new_user.save()
-            return HttpResponse("User Registered successfully")
+            messages.success(request, "Registration Successful, Please Login")
+            
+            return redirect("authentications:login")
     else:
         form = UserRegistrationForm()
     return render(request, "authentications/register.html", {"form": form})
