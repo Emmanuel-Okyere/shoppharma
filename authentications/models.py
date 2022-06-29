@@ -8,13 +8,13 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 class Pharmacist(BaseUserManager):
     """Registration of the user using the BaseUserManager to create a superuser"""
 
-    def create_user(self,email_address, password=None, first_name=None,last_name=None):
+    def create_user(self,email_address, password=None, first_name=None,last_name=None, phone_number=None):
         """Creation of user"""
         if not email_address:
             raise ValueError("user must have email address")
 
         user = self.model(
-            email_address=email_address,first_name=first_name,last_name=last_name
+            email_address=email_address,first_name=first_name,last_name=last_name, phone_number = phone_number
         )
         user.set_password(password)
         user.save(using=self._db)
@@ -33,10 +33,10 @@ class Pharmacist(BaseUserManager):
 
 class Users(AbstractBaseUser):
     """User creation model"""
-    first_name = models.CharField(max_length=200, blank=False)
-    last_name = models.CharField(max_length=200, blank=False)
-    email_address = models.EmailField(unique=True, blank=False)
-    phone_number = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=200, blank=False, null=True)
+    last_name = models.CharField(max_length=200, blank=False, null=True)
+    email_address = models.EmailField(unique=True, blank=False, null=True )
+    phone_number = models.CharField(max_length=20, blank=True,  null=True)
     is_admin = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)

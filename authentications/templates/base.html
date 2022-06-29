@@ -51,13 +51,13 @@
     {% if request.user.is_authenticated %}
     <i class="lni lni-user"></i>
     <li>Hello {{request.user.first_name}}</li>
-    <li><a href = "{% url 'logout' %}">Logout</a></li>
+    <li><a href = "{% url 'authentications:logout' %}">Logout</a></li>
     {% else %}
     <li>
-    <a href="{% url 'login' %}">Sign In</a>
+    <a href="{% url 'authentications:login' %}">Sign In</a>
     </li>
     <li>
-    <a href="{% url 'register' %}">Register</a>
+    <a href="{% url 'authentications:register' %}">Register</a>
     </li>
     {% endif %}
 </ul>
@@ -269,7 +269,7 @@ Sibebar</a></li>
 <div class="col-lg-9 col-md-8 col-12">
 <div class="footer-newsletter">
 <h4 class="title">
-Subscribe to our Newsletter
+    Get Information  
 <span>Get all the latest information, Sales and Offers.</span>
 </h4>
 <div class="newsletter-form-head">

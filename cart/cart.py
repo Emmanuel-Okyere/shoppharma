@@ -9,7 +9,7 @@ class Cart(object):
     """Cart class"""
 
     def __init__(self, request):
-        """Initialize thye cart"""
+        """Initialize the cart"""
         self.session = request.session
         cart = self.session.get(settings.CART_SESSION_ID)
         self.coupon_id = self.session.get("coupon_id")

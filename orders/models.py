@@ -4,15 +4,13 @@ from django.db import models
 from shop.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
 from coupons.models import Coupon
+from authentications.models import Users
 # from coupons.models import Coupon
 # Create your models here.
 
 
 class Order(models.Model):
-    first_name = models.CharField( max_length=200,)
-    last_name = models.CharField(max_length=200)
-    email_address = models.EmailField()
-    telephone = models.CharField(max_length=12)
+    user = models.ForeignKey(Users, related_name="user_order", on_delete=models.CASCADE)
     address = models.CharField(max_length=200)
     postal_code = models.CharField(max_length=200)
     region = models.CharField(max_length=100)
