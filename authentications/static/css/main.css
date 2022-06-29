@@ -6935,7 +6935,7 @@ blockquote span {
     position: relative;
 }
 
-#info_container {
+.info_container {
     position: absolute;
     background-color: white;
     width: 50%;
@@ -6951,7 +6951,7 @@ blockquote span {
 
 }
 
-#info_container p {
+.info_container p {
     margin-top: 13px;
     width: 85%;
     height: 80%;
@@ -6965,6 +6965,39 @@ blockquote span {
     border-bottom: none;
     display: flex;
     align-items: center;
+    font-size: 17px;
+}
+
+.info_containers {
+    position: absolute;
+    background-color: white;
+    width: 50%;
+    height: 6%;
+    justify-content: space-around;
+    display: flex;
+    align-items: center;
+    z-index: 2;
+    top: -60px;
+    left: 140px;
+    border: 1px solid green;
+    border-radius: 5px;
+
+}
+
+.info_containers p {
+    margin-top: 13px;
+    width: 85%;
+    height: 80%;
+    color: green;
+    margin-top: 16px;
+    /* background: green; */
+    border: 1px solid green;
+    border-left: none;
+    outline: none;
+    border-top: none;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
 }
 
 #info_container i {
@@ -6972,6 +7005,16 @@ blockquote span {
     color: red;
     margin-left: -9px;
 }
+
+/* #title {
+    margin-bottom: 30px;
+    padding: 42px;
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 40px #00000008;
+    box-shadow: 0 5px 40px #00000008
+} */
 
 .account-login .login-form {
     padding: 42px;

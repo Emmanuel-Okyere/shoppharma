@@ -8,6 +8,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from .forms import ProductCreateForm
 import requests
+from django.contrib import messages
 # Create your views here.
 # BASE_URL = 'http://127.0.0.1:8000/adminshop'
 # r = requests.post(f'{BASE_URL}/add')
@@ -106,6 +107,7 @@ def add_product(request):
         form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Product added successfully")
             return redirect(reverse('shop:shop'))
     form = ProductCreateForm()
     return render(request, "shop/add_product.html", {"form": form})

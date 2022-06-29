@@ -20,8 +20,7 @@ def user_login(request):
                 messages.success(request, "Login Success")
                 return redirect("shop:shop")
             else:
-                messages.error(request, "Invalid Credentials")
-                print("***********************",messages.get_level(request))
+                messages.error(request, "Invalid Credentials, Try Again")
                 return render(request,"authentications/login.html",{"form":form})
     else:
         form = LoginForm()

@@ -24,7 +24,16 @@
 <div class="container">
 <div class="row">
 <div class="col-lg-3 col-12">
-
+    <!-- <div class="title">
+{% if messages %}
+    {% for message in messages %}
+    <div id = "info_container" {% if message.tags == "error" %}class= "info_container" {% else %}class= "info_containers"{% endif %} >
+             <p> {{message}}</p>              
+        <i class="lni lni-close"></i>
+        {% endfor %}
+    </div>
+        {% endif %}
+        </div> -->
 <div class="product-sidebar">
 <div class="single-widget search">
 <h3>Search Product</h3>
@@ -238,5 +247,13 @@ Page {{ post.number }} of {{ post.paginator.num_pages }}
 </div>
 </div>
 </section>
+<script>
+    const info_container = document.getElementById("info_container"); 
+    const x = info_container.lastElementChild;
+    x.style.cursor = "pointer";
+    x.addEventListener('click',()=>{
+        info_container.style.display="none"
+    })
 
+</script>
 {% endblock %}

@@ -76,21 +76,18 @@ step</button>
 <div class="checkout-sidebar">
 <div class="checkout-sidebar-coupon">
 <p>Appy Coupon to get discount!</p>
-<form action="#">
-<div class="single-form form-default">
-<div class="form-input form">
-<input type="text" placeholder="Coupon Code">
-</div>
+<form action="{% url 'coupons:apply' %}" method="POST">
+{{ coupon_apply_form }}
 <div class="button">
-<button class="btn">apply</button>
+<button type="submit" class="btn">Apply</button>
 </div>
-</div>
+{% csrf_token %}
 </form>
 </div>
-{% for item in cart %}
-{% with product=item.product %}
 <div class="checkout-sidebar-price-table mt-30">
 <h5 class="title">Pricing Table</h5>
+{% for item in cart %}
+{% with product=item.product %}
 <div class="sub-total-price">
 <div class="total-price">
 <p class="value">{{product.name}} Total</p>
@@ -105,14 +102,20 @@ step</button>
 <p class="price">GH₵{{ cart.get_total|floatformat:2 }}</p>
 </div>
 </div>
-<div class="price-table-btn button">
-<a href="{% url 'orders:order_create' %}" class="btn btn-alt">Checkout</a>
+{% if cart.coupon %}
+<div class="total-payable">
+<div class="payable-price">
+<p class="value">Amount off:</p>
+<p class="price">-GH₵{{ cart.get_discount|floatformat:2 }}</p>
 </div>
 </div>
-<div class="checkout-sidebar-banner mt-30">
-<a href="product-grids.html">
-<img src="assets/images/banner/banner.jpg" alt="#">
-</a>
+{% endif %}
+<div class="total-payable">
+<div class="payable-price">
+<p class="value">Total Payable:</p>
+<p class="price">GH₵{{ cart.get_total_price_after_discount|floatformat:2 }}</p>
+</div>
+</div>
 </div>
 </div>
 </div>
