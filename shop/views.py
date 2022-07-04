@@ -6,14 +6,18 @@ from shop.api.serializer import ProductSerializer,CategorySerializer
 from .models import Category, Product
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .forms import ProductCreateForm
+from .forms import ProductCreateForm, SearchForm
 import requests
+from django.contrib import messages
+from django.contrib.postgres.search import TrigramSimilarity
+from django.db.models import Q
 # Create your views here.
 # BASE_URL = 'http://127.0.0.1:8000/adminshop'
 # r = requests.post(f'{BASE_URL}/add')
 # courses = r.json()
 def product_list(request, category_slug=None):
     """Products list view"""
+    form = SearchForm()
     category = None
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
@@ -35,9 +39,9 @@ def product_list(request, category_slug=None):
             return paginator.page(1)
         except EmptyPage:
             posts = paginator.page(paginator.num_pages)
-    return render(request, "shop/index.html", {"category": category,
+    return render(request, "shop/index.html", {"category": category,"prod":products,
                                                       "categories": categories,
-                                                      "post":posts,"page":page})
+                                                      "post":posts,"page":page,"form":form})
 
 def product_detail(request, id, slug):
     """Product detial"""
@@ -106,6 +110,36 @@ def add_product(request):
         form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Product added successfully")
             return redirect(reverse('shop:shop'))
     form = ProductCreateForm()
     return render(request, "shop/add_product.html", {"form": form})
+
+
+def post_search(request):
+    """Creating the get post search function"""
+    form = SearchForm()
+    categories = Category.objects.all()
+    query = None
+    results = []
+    print("************************************ I aam here")
+    if 'query' in request.GET:
+        form = SearchForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
+            print(query)
+            lookups = (Q(name__icontains=query)| 
+                  Q(description__icontains=query)|
+                  Q(price__icontains=query))
+            results = Product.objects.filter(lookups).distinct()
+    paginator = Paginator(results, 9)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts= paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+    return render(request, "shop/search.html",{
+        "form":form,"query":query, "results":results, "post":posts,"categories":categories
+    })

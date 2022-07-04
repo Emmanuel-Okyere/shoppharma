@@ -11,3 +11,7 @@ class ProductCreateForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ["category","name","description","image","price"]
+
+class SearchForm(forms.Form):
+    """Creating the search form class"""
+    query = forms.CharField(label="")

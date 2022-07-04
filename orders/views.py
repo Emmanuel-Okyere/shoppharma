@@ -11,7 +11,7 @@ from .models import Order
 from .models import OrderItem
 from .forms import OrderCreateForm
 from cart.cart import Cart
-
+from coupons.forms import CouponApplyForm
 # Braintree
 import braintree
 from django.conf import settings
@@ -24,6 +24,7 @@ gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 @login_required
 def order_create(request):
     """Creating the order"""
+    coupon_apply_form = CouponApplyForm()
     cart = Cart(request)
     if not request.session["cart"]:
         return redirect(reverse('cart:cart_detail'))
@@ -48,7 +49,8 @@ def order_create(request):
             return redirect(reverse('orders:process'))
     else:
         form = OrderCreateForm()
-        return render(request, "orders/checkout.html", {"cart": cart, "form": form})
+        return render(request, "orders/checkout.html", {"cart": cart,
+        "form": form,"coupon_apply_form":coupon_apply_form})
 
 
 
