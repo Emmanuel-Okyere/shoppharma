@@ -28,7 +28,7 @@
 <div class="single-widget search">
 <h3>Search Product</h3>
 <form action="{% url 'shop:post_search' %}">
-{{form.as_p}}
+{{form_search.as_p}}
 {% csrf_token %}
 <button type="submit"><i class="lni lni-search-alt"></i></button>
 </form>

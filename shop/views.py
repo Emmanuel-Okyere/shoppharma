@@ -1,20 +1,21 @@
-from django.urls import reverse
-from cart.forms import CartAddProductForm
+"""Views.py file for shop"""
+import time
+from django.contrib import messages
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
-from shop.api.serializer import ProductSerializer,CategorySerializer
-from .models import Category, Product
+from django.urls import reverse
+from django.core.mail import send_mail
 from rest_framework import generics, status
 from rest_framework.response import Response
-from .forms import ProductCreateForm, SearchForm
-import requests
-from django.contrib import messages
-from django.contrib.postgres.search import TrigramSimilarity
-from django.db.models import Q
+from cart.forms import CartAddProductForm
+from shop.api.serializer import CategorySerializer, ProductSerializer
+
+from shop.forms import ProductCreateForm, SearchForm, ContactUs
+from shop.models import Category, Product
+
+
 # Create your views here.
-# BASE_URL = 'http://127.0.0.1:8000/adminshop'
-# r = requests.post(f'{BASE_URL}/add')
-# courses = r.json()
 def product_list(request, category_slug=None):
     """Products list view"""
     form = SearchForm()
@@ -41,7 +42,7 @@ def product_list(request, category_slug=None):
             posts = paginator.page(paginator.num_pages)
     return render(request, "shop/index.html", {"category": category,"prod":products,
                                                       "categories": categories,
-                                                      "post":posts,"page":page,"form":form})
+                                                      "post":posts,"page":page,"form_search":form})
 
 def product_detail(request, id, slug):
     """Product detial"""
@@ -57,9 +58,6 @@ class ProductPostSerializer(generics.ListAPIView):
     """Book list API View"""
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    # authentication_classes = (BasicAuthentication,)
-    # permission_classes = (IsAuthenticated, IsSuperUser)
-
     def post(self, request, *args, **kwargs):
         """Post method for HTTP POST request from Booklist View"""
         serializer = ProductSerializer(data=request.data)
@@ -85,9 +83,6 @@ class CategoryAddSerializer(generics.ListAPIView):
     """Catalogue list API View"""
     queryset = Category.objects
     serializer_class = CategorySerializer
-    # authentication_classes = (BasicAuthentication,)
-    # permission_classes = (IsAuthenticated, IsSuperUser)
-
     def post(self, request):
         """Post method for HTTP POST request from Catalogue View"""
         serializer = CategorySerializer(data=request.data)
@@ -105,8 +100,8 @@ class CategoryAddSerializer(generics.ListAPIView):
             status=status.HTTP_400_BAD_REQUEST)
 
 def add_product(request):
+    """Adding products to the page"""
     if request.method == "POST":
-        print(request.FILES.get("image"))
         form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
             form.save()
@@ -122,15 +117,13 @@ def post_search(request):
     categories = Category.objects.all()
     query = None
     results = []
-    print("************************************ I aam here")
     if 'query' in request.GET:
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data['query']
-            print(query)
-            lookups = (Q(name__icontains=query)| 
+            lookups = (Q(name__icontains=query)|
                   Q(description__icontains=query)|
-                  Q(price__icontains=query))
+                  Q(category__name__icontains=query))
             results = Product.objects.filter(lookups).distinct()
     paginator = Paginator(results, 9)
     page = request.GET.get('page')
@@ -141,5 +134,24 @@ def post_search(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
     return render(request, "shop/search.html",{
-        "form":form,"query":query, "results":results, "post":posts,"categories":categories
+        "form_search":form,"query":query, "results":results, "post":posts,"categories":categories
     })
+
+
+def contact_us(request):
+    """View for contact us page"""
+    form = ContactUs()
+    if request.method =="POST":
+        forms = ContactUs(request.POST)
+        if forms.is_valid():
+            cleaned  = forms.cleaned_data
+            # sending email from contact me page.
+            send_mail(subject=cleaned["subject"], message =
+            f'{cleaned["message"]}\n From: {cleaned["email"]} \n Telephone: {cleaned["phone"]}',
+            from_email="eogyateng@st.ug.edu.gh",recipient_list=["gyateng94@gmail.com"])
+            #Sending a back email to user after reecieving the email from contact me
+            send_mail(subject="Email Recieved",
+            message ='Your message was received and we will reach out to you shortly. \n\n Regards',
+            from_email="eogyateng@st.ug.edu.gh",recipient_list=[cleaned["email"]])
+    categories = Category.objects.all()
+    return render(request,"shop/contact.html",{"contact":form, "categories":categories})

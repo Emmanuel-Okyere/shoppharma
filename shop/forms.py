@@ -15,3 +15,13 @@ class ProductCreateForm(forms.ModelForm):
 class SearchForm(forms.Form):
     """Creating the search form class"""
     query = forms.CharField(label="")
+
+
+class ContactUs(forms.Form):
+    """Creating the form for contact us page"""
+    name = forms.CharField()
+    subject = forms.CharField()
+    email = forms.EmailField()
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows': 1, 'cols': 85}), max_length=160)
+    phone = forms.CharField()
+    field_order = ["name","subject","email","phone","message"]
