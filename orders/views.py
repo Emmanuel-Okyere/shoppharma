@@ -15,6 +15,7 @@ from coupons.forms import CouponApplyForm
 # Braintree
 import braintree
 from django.conf import settings
+from orders.task import order_created, payment_completed,payment_not_completed
 gateway = braintree.BraintreeGateway(settings.BRAINTREE_CONF)
 
 # from .tasks import order_created
@@ -37,6 +38,7 @@ def order_create(request):
                 order.discount = cart.coupon.discount
             
             order.user = request.user
+            first_name = request.user.first_name 
             order.save()
             for item in cart:
                 OrderItem.objects.create(order=order,
@@ -44,7 +46,7 @@ def order_create(request):
                                          quantity=item["quantity"])
             cart.clear()
             # launch asynchronous task
-            # order_created.delay(order.id)
+            order_created.delay(order.id, first_name)
             request.session['order_id'] = order.id
             return redirect(reverse('orders:process'))
     else:
@@ -74,6 +76,7 @@ def payment_process(request):
     order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id= order_id)
     total_cost = order.get_total_cost()
+    first_name = request.user.first_name
     if request.method =="POST":
         nonce = request.POST.get("payment_method_nonce", None)
         result = gateway.transaction.sale({
@@ -88,9 +91,10 @@ def payment_process(request):
             order.braintree_id = result.transaction.id
             order.save()
             # launch asynchronous task
-            # payment_completed.delay(order.id)
+            payment_completed.delay(order.id,first_name)
             return redirect("orders:done")
         else:
+            payment_not_completed.delay(order.id,first_name)
             return redirect("orders:canceled")
     else:
         client_token = gateway.client_token.generate()
