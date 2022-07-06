@@ -92,17 +92,6 @@ WSGI_APPLICATION = 'shoppharm.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pharmacy',
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('DATABASE_PASSWORD')
-    }
-}
-
-
-
 AUTH_USER_MODEL = 'authentications.Users'
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
