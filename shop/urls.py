@@ -4,7 +4,7 @@ from shop import views
 
 app_name = "shop"
 urlpatterns = [
-    path("shop/", views.product_list, name = "shop"),
+    path("", views.product_list, name = "shop"),
     path("adminshop/add", views.ProductPostSerializer.as_view(), name = "postshop"),
     path("shop/add", views.add_product, name = "addproduct"),
     path("adminshop/category", views.CategoryAddSerializer.as_view(), name = "postcategory"),

@@ -1,6 +1,7 @@
 """Orders model"""
 from decimal import Decimal
 from django.db import models
+from django.urls import reverse, reverse_lazy
 from shop.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
 from coupons.models import Coupon
@@ -32,7 +33,10 @@ class Order(models.Model):
     def get_total_cost(self):
         total_cost = sum(item.get_cost() for item in self.items.all())
         return total_cost - total_cost*(self.discount/Decimal(100))
-
+    
+    def get_absolute_url(self):
+        """Getting absolute URL"""
+        return reverse_lazy("orders:order_detail", args=[self.id])
 
 class OrderItem(models.Model):
     order = models.ForeignKey(
