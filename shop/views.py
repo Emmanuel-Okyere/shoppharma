@@ -49,8 +49,9 @@ def product_detail(request, id, slug):
     categories = Category.objects.all()
     product = get_object_or_404(Product, id=id, slug=slug, available=True)
     cart_product_form = CartAddProductForm()
+    form = SearchForm()
     return render(request, "shop/details.html", {"product": product,"categories":categories,
-    "cart_product_form":cart_product_form})
+    "cart_product_form":cart_product_form,"form_search":form})
 
 
 
@@ -101,6 +102,7 @@ class CategoryAddSerializer(generics.ListAPIView):
 
 def add_product(request):
     """Adding products to the page"""
+    forms = SearchForm()
     if request.method == "POST":
         form =ProductCreateForm(request.POST,request.FILES)
         if form.is_valid():
@@ -108,7 +110,7 @@ def add_product(request):
             messages.success(request, "Product added successfully")
             return redirect(reverse('shop:shop'))
     form = ProductCreateForm()
-    return render(request, "shop/add_product.html", {"form": form})
+    return render(request, "shop/add_product.html", {"form": form,"form_search":forms})
 
 
 def post_search(request):

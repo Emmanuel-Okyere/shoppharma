@@ -5,6 +5,7 @@ from shop.models import Product, Category
 from .cart import Cart
 from .forms import CartAddProductForm
 from coupons.forms import CouponApplyForm
+from shop.forms import SearchForm
 # from coupons.forms import CouponApplyForm
 # Create your views here.
 
@@ -32,6 +33,7 @@ def cart_remove(request, product_id):
 
 def cart_detail(request):
     """All items"""
+    form = SearchForm()
     cart = Cart(request)
     categories = Category.objects.all()
     for item in cart:
@@ -39,4 +41,4 @@ def cart_detail(request):
             'quantity': item['quantity'], 'override': True})
     coupon_apply_form = CouponApplyForm()
     return render(request, "cart/details.html", {'cart': cart, "categories":categories,
-    "coupon_apply_form": coupon_apply_form})
+    "coupon_apply_form": coupon_apply_form,"form_search":form})
