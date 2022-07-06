@@ -1,6 +1,7 @@
+"""Production settings"""
 from .base import *
-DEBUG =False
-
+import os
+DEBUG =True
 ADMINS = (
 ('Gyateng Emmanuel', 'gyateng94@gmail.com'),
 )
