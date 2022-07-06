@@ -6060,7 +6060,16 @@ blockquote span {
 }
 
 .product-sidebar .single-widget:last-child {
-    margin-bottom: 0
+    margin-bottom: 0;
+}
+
+.category-list {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.category-list ::-webkit-scrollbar {
+    display: none;
 }
 
 .product-sidebar .single-widget h3 {
