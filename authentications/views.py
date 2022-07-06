@@ -12,7 +12,6 @@ def user_login(request):
         form = LoginForm(request.POST)
         if form.is_valid():
             clean_data = form.cleaned_data
-            print(clean_data)
             user = authenticate(request,email_address = clean_data['email_address'],
             password = clean_data["password"])
             if user is not None:
@@ -32,7 +31,6 @@ def register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             clean_data  =form.cleaned_data
-            print(clean_data)
             new_user = Users.objects.create_user(
                 email_address = clean_data["email_address"],
                 password = clean_data["password2"],
