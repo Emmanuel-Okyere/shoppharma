@@ -2,11 +2,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from shop.models import Product, Category
-from .cart import Cart
-from .forms import CartAddProductForm
-from coupons.forms import CouponApplyForm
 from shop.forms import SearchForm
-# from coupons.forms import CouponApplyForm
+from cart.cart import Cart
+from cart.forms import CartAddProductForm
+from coupons.forms import CouponApplyForm
 # Create your views here.
 
 
@@ -25,10 +24,14 @@ def cart_add(request, product_id):
 
 def cart_remove(request, product_id):
     """Removing item from cart"""
-    cart = Cart(request)
-    product = get_object_or_404(Product, id=product_id)
-    cart.remove(product)
-    return redirect("cart:cart_detail")
+    try:
+        cart = Cart(request)
+        product = get_object_or_404(Product, id=product_id)
+        cart.remove(product)
+        return redirect("cart:cart_detail")
+    except Product.DoesNotExist:
+        return redirect("cart:cart_detail")
+
 
 
 def cart_detail(request):
