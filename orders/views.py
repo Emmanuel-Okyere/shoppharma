@@ -105,10 +105,10 @@ def payment_process(request):
             order.braintree_id = result.transaction.id
             order.save()
             # launch asynchronous task
-            payment_completed.delay(order.id,first_name)
+            # payment_completed.delay(order.id,first_name)
             return redirect("orders:done")
         else:
-            payment_not_completed.delay(order.id,first_name)
+            # payment_not_completed.delay(order.id,first_name)
             return redirect("orders:canceled")
     else:
         client_token = gateway.client_token.generate()
