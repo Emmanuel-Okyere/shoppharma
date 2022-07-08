@@ -49,10 +49,7 @@ def order_create(request):
                                          quantity=item["quantity"])
             cart.clear()
             # launch asynchronous task
-            try:
-                order_created.delay(order.id, first_name)
-            except OperationalError as error:
-                print("Operational Error", error)
+            # order_created.delay(order.id, first_name)
             request.session['order_id'] = order.id
             return redirect(reverse('orders:process'))
     else:
