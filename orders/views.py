@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import login_required
+from psycopg2 import OperationalError
 from shop.models import Category
 import weasyprint
 from .models import Order
@@ -48,7 +49,10 @@ def order_create(request):
                                          quantity=item["quantity"])
             cart.clear()
             # launch asynchronous task
-            order_created.delay(order.id, first_name)
+            try:
+                order_created.delay(order.id, first_name)
+            except OperationalError as error:
+                print("Operational Error", error)
             request.session['order_id'] = order.id
             return redirect(reverse('orders:process'))
     else:
