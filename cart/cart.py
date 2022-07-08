@@ -38,6 +38,8 @@ class Cart(object):
         if product_id in self.cart:
             del self.cart[product_id]
             self.save()
+        else:
+            return
 
     def __iter__(self):
         """Iterate over the items and get the products from the database"""
@@ -67,6 +69,7 @@ class Cart(object):
 
     @property
     def coupon(self):
+        """Coupon object"""
         if self.coupon_id:
             try:
                 return Coupon.objects.get(id=self.coupon_id)
@@ -75,9 +78,11 @@ class Cart(object):
         return None
 
     def get_discount(self):
+        """Getting discount when disco8unt is applied"""
         if self.coupon:
             return (self.coupon.discount/Decimal(100) * self.get_total())
         return Decimal(0)
 
     def get_total_price_after_discount(self):
+        """Getting total price after coupon was applied"""
         return self.get_total() - self.get_discount()

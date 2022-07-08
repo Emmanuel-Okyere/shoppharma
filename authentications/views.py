@@ -1,10 +1,10 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.urls import reverse
-from authentications.models import Users
 from django.contrib import messages
+from authentications.models import Users
 from authentications.forms import LoginForm, UserRegistrationForm
+
+
 # Create your views here.
 def user_login(request):
     """Creating the user login view"""
@@ -39,12 +39,12 @@ def register(request):
                 phone_number = clean_data["phone_number"])
             new_user.save()
             messages.success(request, "Registration Successful, Please Login")
-            
             return redirect("authentications:login")
     else:
         form = UserRegistrationForm()
     return render(request, "authentications/register.html", {"form": form})
 
 def user_logout(request):
+    """USer logout view"""
     logout(request)
     return redirect("shop:shop")
