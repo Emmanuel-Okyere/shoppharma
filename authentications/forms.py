@@ -29,3 +29,25 @@ class UserRegistrationForm(forms.ModelForm):
         if clean_data["password"]!=clean_data["password2"]:
             raise forms.ValidationError("Passwords do not match.")
         return clean_data["password2"]
+
+
+class UserForgetPassword(forms.Form):
+    """Forgot password form"""
+    email_address = forms.CharField(max_length=50, required=True,
+    widget=forms.EmailInput(attrs={"class":"form-control"}))
+
+class UserForgetPasswordConfirm(forms.Form):
+    """Forgot password form"""
+    new_password = forms.CharField(max_length=50, required=True,
+    widget=forms.PasswordInput(attrs={"class":"form-control"}))
+    confim_password = forms.CharField(max_length=50, required=True,
+    widget=forms.PasswordInput(attrs={"class":"form-control"}))
+
+    def clean(self):
+        cd = self.cleaned_data
+        new_password = cd.get("new_password")
+        confim_password = cd.get("confim_password")
+        if new_password != confim_password:
+            raise forms.ValidationError("Password did not match")
+        else:
+            return cd
