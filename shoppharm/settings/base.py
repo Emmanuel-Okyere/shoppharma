@@ -55,7 +55,9 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
     "coupons.apps.CouponsConfig",
-    "rest_framework"
+    "rest_framework",
+    "social_django",
+    "sslserver",
 ]
 
 MIDDLEWARE = [
@@ -95,6 +97,8 @@ WSGI_APPLICATION = 'shoppharm.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 AUTH_USER_MODEL = 'authentications.Users'
+SOCIAL_AUTH_USER_MODEL = 'authentications.Users'
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -146,3 +150,40 @@ EMAIL_USE_TLS = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
+
+
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_KEY")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET")
+
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET")
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+'fields': 'id, name, email, link '
+}
+
+SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
+('name', 'name'),
+('email', 'email'),
+('picture', 'picture'),
+('link', 'profile_url'),
+]
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'authentications.pipeline.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2'
+]
