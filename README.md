@@ -46,6 +46,7 @@ ShopPharma is an **E-Commerce** **Python/Django** application made for pharmaceu
 
 ## Features
 - Users can signup and login to the e-commerce platform.
+- Users can reset their passwords.
 - Users can view all listings of drugs on the platform marked as available by the admin.
 - Admin can post products on the platform.
 - Users can choose to **Create, Read, Update, Delete** a drug to their cart and checkout to make payment.
