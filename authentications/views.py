@@ -1,5 +1,6 @@
 """Authentication views file"""
 import os
+import random
 import string
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -9,7 +10,7 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from authentications.models import Users
 from authentications.forms import LoginForm, UserRegistrationForm, UserForgetPassword,UserForgetPasswordConfirm
-import random
+
 
 def generate_random_text(number):
     """Generating random characters to mumble up the reset link sent"""
@@ -106,7 +107,8 @@ def user_forgot_pass_confirm(request):
             else:
                 form = UserForgetPasswordConfirm
                 messages.error(request, "Passwords do not match")
-                return render(request, "authentications/forgot_password_confirm.html",{"pass_conf":form})
+                return render(request, "authentications/forgot_password_confirm.html",
+                {"pass_conf":form})
 
         return render(request, "authentications/forgot_password_confirm.html",{"pass_conf":form})
 
