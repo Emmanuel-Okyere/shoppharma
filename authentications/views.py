@@ -77,7 +77,7 @@ def user_forgot_password(request):
                 token = token_generator.make_token(user=user)
                 send_mail("Password Reset Instructions",
                 f"Password resseting link:{os.getenv('PASSWORD_RESET_HOSTNAME')}authentication/forget-password-confirm/?&si={generate_random_text(50)}&iam={user}&com={generate_random_text(50)}&bus={generate_random_text(50)}&def={token}\n\n\nIf you did not trigger this action, please ignore this Email.\n\n\n Do not share this link with anyone.\n This link can only be used once",
-                "eogyateng@st.ug.edu.gh", [clean_email])
+                os.getenv("EMAIL_HOST_USER"), [clean_email])
             except Users.DoesNotExist:
                 messages.error(request, "User with email does not exist")
             form.clean()
