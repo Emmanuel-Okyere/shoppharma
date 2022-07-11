@@ -10,7 +10,6 @@ def create_user(strategy, details, backend, user=None, *args, **kwargs):
                   for name in backend.setting('USER_FIELDS', USER_FIELDS)}
     if not fields:
         return
-    print(fields)
     return {
         'is_new': True,
         'user': strategy.create_user(**fields)
